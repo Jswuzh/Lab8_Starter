@@ -10,7 +10,6 @@ const RECIPE_URLS = [
     'https://adarsh249.github.io/Lab8-Starter/recipes/6_one-pot-thanksgiving-dinner.json',
 ];
 
-// Run the init() function when the page has loaded
 window.addEventListener('DOMContentLoaded', init);
 
 // Starts the program, all function calls trace back here
@@ -34,11 +33,9 @@ async function init() {
  */
 function initializeServiceWorker() {
   if ('serviceWorker' in navigator) {
-    // First unregister any existing workers
     navigator.serviceWorker.getRegistrations()
       .then(registrations => Promise.all(registrations.map(r => r.unregister())))
       .then(() => {
-        // Register fresh worker
         return navigator.serviceWorker.register('./sw.js', {
           scope: './',
           updateViaCache: 'none'
