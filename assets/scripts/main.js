@@ -69,31 +69,21 @@ async function getRecipes() {
   if (storedRecipes) {
     return JSON.parse(storedRecipes);
   }
-
-  // A2. Create an empty array to hold the recipes
   const recipes = [];
 
-  // A3. Return a new Promise
   return new Promise(async (resolve, reject) => {
-    // A4. Loop through each recipe URL
     for (const url of RECIPE_URLS) {
       try {
-        // A6. Fetch the URL
         const response = await fetch(url);
-        // A7. Retrieve JSON from response
         const recipe = await response.json();
-        // A8. Add new recipe to array
         recipes.push(recipe);
       } catch (error) {
-        // A10. Log any errors
         console.error('Failed to fetch recipe:', error);
-        // A11. Pass error to reject
         reject(error);
         return;
       }
     }
 
-    // A9. Save recipes to storage and resolve
     saveRecipesToStorage(recipes);
     resolve(recipes);
   });
