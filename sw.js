@@ -14,7 +14,7 @@ const LOCAL_ASSETS = [
   '/Lab8_Starter/assets/images/icons/icon_384x384.png',
   '/Lab8_Starter/assets/images/icons/icon_512x512.png',
   '/Lab8_Starter/assets/images/icons/arrow-down.png',
-  '/Lab8_Starter/assets/images/icons/0-star.svg',
+  '/assets/images/icons/0-star.svg',
   '/Lab8_Starter/assets/images/icons/1-star.svg',
   '/Lab8_Starter/assets/images/icons/2-star.svg',
   '/Lab8_Starter/assets/images/icons/3-star.svg',
