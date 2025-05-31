@@ -36,9 +36,7 @@ function initializeServiceWorker() {
   if ('serviceWorker' in navigator) {
     // First unregister any existing workers
     navigator.serviceWorker.getRegistrations()
-      .then(registrations => {
-        return Promise.all(registrations.map(reg => reg.unregister()));
-      })
+      .then(registrations => Promise.all(registrations.map(r => r.unregister())))
       .then(() => {
         // Register fresh worker
         return navigator.serviceWorker.register('./sw.js', {
@@ -47,7 +45,7 @@ function initializeServiceWorker() {
         });
       })
       .then(registration => {
-        console.log('SW registration successful:', registration);
+        console.log('SW registered:', registration);
         registration.addEventListener('updatefound', () => {
           console.log('SW update detected');
         });
