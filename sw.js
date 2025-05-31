@@ -20,9 +20,19 @@ self.addEventListener('install', function (event) {
         '/assets/styles/main.css',
         '/assets/scripts/main.js',
         '/assets/scripts/recipe-card.js',
-        '/assets/images/icons/icon_192x192.png',
-        ...RECIPE_URLS
-      ]);
+        '/assets/images/icons/icon_192x192.png'
+      ]).then(() => {
+        return Promise.all(
+          RECIPE_URLS.map(url => 
+            fetch(url, { mode: 'cors' })
+              .then(res => {
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                return cache.put(url, res);
+              })
+              .catch(e => console.warn(`Failed to cache ${url}:`, e))
+          )
+        );
+      });
     })
   );
 });
@@ -33,30 +43,26 @@ self.addEventListener('activate', function (event) {
 });
 
 self.addEventListener('fetch', function (event) {
-  if (event.request.method !== 'GET' || event.request.url.startsWith('chrome-extension://')) {
-    return;
-  }
-
+  const request = event.request;
+  
+  if (request.method !== 'GET') return;
+  
   event.respondWith(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.match(event.request).then(cachedResponse => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-        
-        return fetch(event.request).then(networkResponse => {
-          if (networkResponse.ok) {
-            const responseToCache = networkResponse.clone();
-            cache.put(event.request, responseToCache);
-          }
-          return networkResponse;
-        }).catch(error => {
-          if (event.request.headers.get('accept').includes('text/html')) {
-            return caches.match('/index.html');
-          }
-          return new Response('网络不可用', { status: 503 });
-        });
-      });
+    caches.match(request).then(cached => {
+      if (RECIPE_URLS.some(url => request.url === url)) {
+        return fetch(request, { cache: 'no-store' })
+          .then(networkRes => {
+            caches.open(CACHE_NAME).then(cache => 
+              cache.put(request, networkRes.clone())
+            );
+            return networkRes;
+          })
+          .catch(() => cached || new Response('{ "error": "Offline" }', {
+            headers: { 'Content-Type': 'application/json' }
+          }));
+      }
+
+      return cached || fetch(request);
     })
   );
 });
