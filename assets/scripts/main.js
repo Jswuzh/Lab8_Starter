@@ -34,15 +34,27 @@ async function init() {
  */
 function initializeServiceWorker() {
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(registration => {
-          console.log('ServiceWorker registration successful with scope:', registration.scope);
-        })
-        .catch(error => {
-          console.error('ServiceWorker registration failed:', error);
+    // First unregister any existing workers
+    navigator.serviceWorker.getRegistrations()
+      .then(registrations => {
+        return Promise.all(registrations.map(reg => reg.unregister()));
+      })
+      .then(() => {
+        // Register fresh worker
+        return navigator.serviceWorker.register('./sw.js', {
+          scope: './',
+          updateViaCache: 'none'
         });
-    });
+      })
+      .then(registration => {
+        console.log('SW registration successful:', registration);
+        registration.addEventListener('updatefound', () => {
+          console.log('SW update detected');
+        });
+      })
+      .catch(error => {
+        console.error('SW registration failed:', error);
+      });
   }
 }
 
