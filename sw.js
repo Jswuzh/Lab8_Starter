@@ -9,16 +9,16 @@ const LOCAL_ASSETS = [
   '/Lab8_Starter/assets/styles/main.css',
   '/Lab8_Starter/assets/scripts/main.js',
   '/Lab8_Starter/assets/scripts/RecipeCard.js',
-  '/Lab8_Starter/assets/images/icons/icon_192x192.png'
-  '/Lab8_Starter/assets/images/icons/icon_256x256.png'
-  '/Lab8_Starter/assets/images/icons/icon_384x384.png'
-  '/Lab8_Starter/assets/images/icons/icon_512x512.png'
-  '/Lab8_Starter/assets/images/icons/arrow-down.png'
-  '/Lab8_Starter/assets/images/icons/0-star.svg'
-  '/Lab8_Starter/assets/images/icons/1-star.svg'
-  '/Lab8_Starter/assets/images/icons/2-star.svg'
-  '/Lab8_Starter/assets/images/icons/3-star.svg'
-  '/Lab8_Starter/assets/images/icons/4-star.svg'
+  '/Lab8_Starter/assets/images/icons/icon_192x192.png',
+  '/Lab8_Starter/assets/images/icons/icon_256x256.png',
+  '/Lab8_Starter/assets/images/icons/icon_384x384.png',
+  '/Lab8_Starter/assets/images/icons/icon_512x512.png',
+  '/Lab8_Starter/assets/images/icons/arrow-down.png',
+  '/Lab8_Starter/assets/images/icons/0-star.svg',
+  '/Lab8_Starter/assets/images/icons/1-star.svg',
+  '/Lab8_Starter/assets/images/icons/2-star.svg',
+  '/Lab8_Starter/assets/images/icons/3-star.svg',
+  '/Lab8_Starter/assets/images/icons/4-star.svg',
   '/Lab8_Starter/assets/images/icons/5-star.svg'
 ];
 const RECIPE_URLS = [
