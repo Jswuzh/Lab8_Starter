@@ -89,45 +89,31 @@ self.addEventListener('activate', function (event) {
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   
-  // Skip non-GET requests
   if (request.method !== 'GET') return;
   
-  // Skip chrome-extension requests
   if (request.url.startsWith('chrome-extension://')) return;
-  
-  // Skip VSCode Live Server requests
-  if (request.url.includes('live-web')) return;
   
   event.respondWith(
     (async () => {
-      // Try cache first
-      const cached = await caches.match(request, {ignoreSearch: true});
+      const cached = await caches.match(request, { ignoreSearch: true });
       
-      // For recipe API calls
       if (RECIPE_URLS.includes(request.url)) {
         try {
-          const networkRes = await fetch(request, {
-            cache: 'no-store',
-            mode: 'cors'
-          });
-          
-          // Update cache in background
+          const networkRes = await fetch(request, { cache: 'no-store', mode: 'cors' });
           if (networkRes.ok) {
             caches.open(CACHE_NAME)
               .then(cache => cache.put(request, networkRes.clone()))
               .catch(console.warn);
           }
-          
           return networkRes;
         } catch (e) {
           return cached || new Response(
-            JSON.stringify({error: "Offline mode"}),
-            {headers: {'Content-Type': 'application/json'}}
+            JSON.stringify({ error: "Offline mode" }),
+            { headers: { 'Content-Type': 'application/json' } }
           );
         }
       }
       
-      // For all other requests
       return cached || fetch(request);
     })()
   );
