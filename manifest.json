@@ -1,17 +1,32 @@
 {
-    "name": "",
-    "short_name": "",
-    "description": "",
-    "start_url": "",
-    "display": "",
-    "background_color": "",
-    "theme_color": "",
-    "icons": [
-      {
-        "src": "/assets/images/icons/icon-192x192.png",
-        "sizes": "192x192",
-        "type": "image/png"
-      }
-    ]
-  }
+  "name": "Lab8_Starter",
+  "short_name": "YourName",
+  "theme_color": "#3f51b5",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "/Lab8_Starter/",
+  "start_url": "/Lab8_Starter/index.html",
+  "icons": [
+    {
+      "src": "/Lab8_Starter/assets/images/icons/icon_192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/Lab8_Starter/assets/images/icons/icon_256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/Lab8_Starter/assets/images/icons/icon_384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/Lab8_Starter/assets/images/icons/icon_512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
   
