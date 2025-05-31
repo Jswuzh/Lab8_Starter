@@ -32,19 +32,30 @@ self.addEventListener('activate', function (event) {
   event.waitUntil(self.clients.claim());
 });
 
-// Intercept fetch requests and cache them
 self.addEventListener('fetch', function (event) {
+  // 跳过非GET请求和chrome扩展请求
+  if (event.request.method !== 'GET' || event.request.url.startsWith('chrome-extension://')) {
+    return;
+  }
+
   event.respondWith(
     caches.open(CACHE_NAME).then(cache => {
       return cache.match(event.request).then(cachedResponse => {
         if (cachedResponse) {
           return cachedResponse;
         }
+        
         return fetch(event.request).then(networkResponse => {
-          // Clone the response before putting in cache
-          const responseToCache = networkResponse.clone();
-          cache.put(event.request, responseToCache);
+          if (networkResponse.ok) {
+            const responseToCache = networkResponse.clone();
+            cache.put(event.request, responseToCache);
+          }
           return networkResponse;
+        }).catch(error => {
+          if (event.request.headers.get('accept').includes('text/html')) {
+            return caches.match('/index.html');
+          }
+          return new Response('网络不可用', { status: 503 });
         });
       });
     })
